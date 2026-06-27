@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from emotion_detection import emotion_detector
+from EmotionDetection.emotion_detection import emotion_detector
 import subprocess
 
 app = Flask(__name__)
@@ -7,11 +7,15 @@ app = Flask(__name__)
 
 @app.route("/emotion", methods=["POST"])
 def emotion_api():
-
     data = request.get_json()
 
+    # Handle missing JSON or missing "text"
     if not data or "text" not in data:
         return jsonify({"error": "Bad Request"}), 400
+
+    # Handle blank / whitespace-only input
+    if data["text"].strip() == "":
+        return jsonify({"error": "text is empty"}), 400
 
     result = emotion_detector(data["text"])
     return jsonify(result), 200
@@ -33,7 +37,11 @@ def run_static_analysis():
     )
 
     print("STATIC ANALYSIS OUTPUT:")
-    print(result.stdout if result.stdout else "No issues found (Perfect Score)")
+
+    if result.stdout:
+        print(result.stdout)
+    else:
+        print("No issues found (Perfect Score)")
 
 
 if __name__ == "__main__":
