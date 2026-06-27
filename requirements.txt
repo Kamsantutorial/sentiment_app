@@ -1,0 +1,6 @@
+flask
+ibm-watson
+ibm-cloud-sdk-core
+pytest
+pylint
+flake8

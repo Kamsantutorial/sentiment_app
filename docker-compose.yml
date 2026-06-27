@@ -1,0 +1,13 @@
+services:
+  emotion-app:
+    build: .
+    container_name: emotion-app
+    ports:
+      - "5000:5000"
+    environment:
+      IBM_API_KEY: hEBku6cjZBf3aPdZ6wabicIkyeUUjUS9MErUxwJOIBY6
+      IBM_URL: https://api.au-syd.natural-language-understanding.watson.cloud.ibm.com/instances/0bc66b0a-5a74-48a2-9038-4d65e1a04ce4
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: python server.py
